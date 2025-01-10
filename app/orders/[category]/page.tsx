@@ -1,5 +1,5 @@
 import ProductCard from "@/components/products/ProductCard"
-import { prisma } from "@/src/prisma"
+import { prisma } from "@/src/lib/prisma"
 
 async function getProducts(category: string) {
     return await prisma.product.findMany({
