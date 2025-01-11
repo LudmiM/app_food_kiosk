@@ -7,6 +7,7 @@ interface Store {
     addToCard: (product: Product) => void;
     increaseQuantity: (id: number) => void;
     decreaseQuantity: (id: number) => void;
+    removeItem: (id: Product['id']) => void;
 }
 
 export const useStore = create<Store>((set, get) => ({
@@ -46,6 +47,13 @@ export const useStore = create<Store>((set, get) => ({
             quantity: item.quantity - 1,
             subtotal: item.price * (item.quantity - 1)
         } : item)
+
+        set(() => ({
+            order
+        }))
+    },
+    removeItem: (id) => {
+        const order = get().order.filter((item) => item.id !== id)
 
         set(() => ({
             order
