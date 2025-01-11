@@ -1,5 +1,6 @@
 'use client'
 import { useStore } from "@/src/store"
+import ProductDetail from "./ProductDetail"
 
 export default function OrderSummary() {
   const order = useStore((state) => state.order)
@@ -9,7 +10,10 @@ export default function OrderSummary() {
 
         {order.length === 0 ? <p className="text-center my-10">El carrito esta vacio</p> : (
           <div className="mt-5">
-              <p>Hay akgoo</p>
+              {order.map((item, index) => (
+                <ProductDetail key={index} item={item} />
+              ))}
+
           </div>
         )}
     </aside>
