@@ -6,6 +6,7 @@ interface Store {
     order: OrderItem[];
     addToCard: (product: Product) => void;
     increaseQuantity: (id: number) => void;
+    decreaseQuantity: (id: number) => void;
 }
 
 export const useStore = create<Store>((set, get) => ({
@@ -31,12 +32,23 @@ export const useStore = create<Store>((set, get) => ({
         }));
     },
     increaseQuantity: (id) => {
-       set((state) => ({
+        set((state) => ({
             order: state.order.map((item) => item.id === id ? {
+                ...item,
+                quantity: item.quantity + 1,
+                subtotal: item.price * (item.quantity + 1)
+            } : item)
+        }))
+    },
+    decreaseQuantity: (id) => {
+        const order = get().order.map((item) => item.id === id ? {
             ...item,
-            quantity: item.quantity + 1,
-            subtotal: item.price * (item.quantity + 1)
+            quantity: item.quantity - 1,
+            subtotal: item.price * (item.quantity - 1)
         } : item)
-       }))
+
+        set(() => ({
+            order
+        }))
     }
 }));
